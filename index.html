@@ -35,6 +35,7 @@ client.getEntry('<entry_id>'); // asynchronous, returns promise
         .getEntry('<entry_id>')
         .then(entry => {
           const rawRichTextField = entry.fields.body;
+          
           return documentToHtmlString(rawRichTextField);
         })
         .then(renderedHtml => {
