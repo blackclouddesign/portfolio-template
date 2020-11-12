@@ -1,13 +1,4 @@
-import * as contentful from 'contentful';
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 
-const client = contentful.createClient({
-  space: '<space_id>',
-  environment: '<environment_id>', // defaults to 'master' if not set
-  accessToken: '<content_delivery_api_key>'
-});
-
-client.getEntry('<entry_id>'); // asynchronous, returns promise
 
     <!DOCTYPE html>
 <html>
@@ -35,7 +26,7 @@ client.getEntry('<entry_id>'); // asynchronous, returns promise
         .getEntry('<entry_id>')
         .then(entry => {
           const rawRichTextField = entry.fields.body;
-          
+
           return documentToHtmlString(rawRichTextField);
         })
         .then(renderedHtml => {
