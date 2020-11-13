@@ -1,1 +1,53 @@
-<html>hallo welt</html>
+mport * as contentful from 'contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
+const client = contentful.createClient({
+  space: '<space_id>',
+  environment: '<environment_id>', // defaults to 'master' if not set
+  accessToken: '<content_delivery_api_key>'
+});
+
+client.getEntry('<entry_id>'); // asynchronous, returns promise
+
+
+    <!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://unpkg.com/contentful@7.0.5/dist/contentful.browser.min.js"
+      charset="utf-8"
+    ></script>
+    <script>
+      var exports = {}; // quick fix because 'exports' is not defined in rich-text bundle below
+    </script>
+    <script
+      src="https://unpkg.com/@contentful/rich-text-html-renderer@12.0.0/dist/rich-text-html-renderer.es5.js"
+      charset="utf-8"
+    ></script>
+
+    <script>
+      const client = contentful.createClient({
+        space: '<space_id>',
+        environment: '<environment_id>', // defaults to 'master' if not set
+        accessToken: '<content_delivery_api_key>'
+      });
+
+      client
+        .getEntry('<entry_id>')
+        .then(entry => {
+          const rawRichTextField = entry.fields.body;
+          return documentToHtmlString(rawRichTextField);
+        })
+        .then(renderedHtml => {
+          // do something with html, like write to a file
+          console.log(renderedHtml);
+          document.getElementById('rich-text-body').innerHTML = renderedHtml;
+        })
+        .catch(error => console.log(error));
+    </script>
+  </head>
+  <body>
+    <p>Here is my rendered rich text:</p>
+    <div id="rich-text-body"></div>
+  </body>
+</html>
